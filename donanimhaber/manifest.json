@@ -3,6 +3,9 @@
   "version" : "0.1",
   "manifest_version": 2,
   "description" : "DonanimHaber.com sitesini daha kullanışlı hale getirme yolu",
+  "background": {
+    "scripts": ["dh.dh.js"]
+  },
   "icons": { "16": "logo.png",
            "48": "logo.png",
           "128": "logo.png" },
@@ -11,12 +14,12 @@
   "content_security_policy": "script-src 'self'; object-src 'self'",
    "content_scripts": [
     {
-      "matches": ["*.donanimhaber.com*"],
+      "matches": ["*://*.donanimhaber.com*"],
       "js": ["dh.dh.js"]
     }
   ],
   "permissions": [
     "tabs", 
-	"http://*/*"
+	"*://*.donanimhaber.com*"
   ]
 }

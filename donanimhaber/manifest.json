@@ -11,11 +11,12 @@
   "content_security_policy": "script-src 'self'; object-src 'self'",
    "content_scripts": [
     {
-      "matches": ["http://*/*"],
+      "matches": ["*.donanimhaber.com*"],
       "js": ["dh.dh.js"]
     }
   ],
   "permissions": [
-    "tabs", "http://*/*"
+    "tabs", 
+	"http://*/*"
   ]
 }

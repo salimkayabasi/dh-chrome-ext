@@ -1,0 +1,24 @@
+﻿{
+  "name" : "DonanımHaber",
+  "version" : "0.1",
+  "manifest_version": 2,
+  "description" : "DonanimHaber.com sitesini daha kullanışlı hale getirme yolu",
+  "icons": { "16": "logo.png",
+           "48": "logo.png",
+          "128": "logo.png" },
+ "page_action": {
+    "default_icon": "logo.png", // optional
+    "default_title": "DonanımHaber",    // optional; shown in tooltip
+    "default_popup": "options.html"    // optional
+  },
+  "options_page": "options.html",
+  "offline_enabled": true,
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": ["http://*.donanimhaber.com/*"],
+      "js": ["dh.jquery-1.8.0.min.js", "dh.dh.js"]
+    }
+  ],
+  "permissions": ["tabs","http://*.donanimhaber.com/*"]
+}

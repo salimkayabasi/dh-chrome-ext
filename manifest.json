@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["http://*.donanimhaber.com/*"],
-      "js": ["dh.jquery-1.8.0.min.js", "dh.dh.js"]
+      "js": ["dh.jquery-1.8.0.min.js","dh.dh.js"]
     }
   ],
   "permissions": ["tabs","http://*.donanimhaber.com/*"]

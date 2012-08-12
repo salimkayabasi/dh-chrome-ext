@@ -1,8 +1,13 @@
 ﻿{
   "name" : "DonanımHaber",
-  "version" : "0.2",
+  "version" : "0.2.1",
   "manifest_version": 2,
   "description" : "DonanimHaber.com sitesini daha kullanışlı hale getirme yolu",
+  "app": {
+    "launch": {
+      "local_path": "redirect.html"
+    }
+  },
   "icons": { "16": "logo.png",
            "48": "logo.png",
           "128": "logo.png" },

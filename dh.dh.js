@@ -73,7 +73,7 @@ function reklamlariKaldir() {
         $($('table[width*="95%"]')[1]).remove();
         $($('table[width*="95%"]')[1]).remove();
         $($('table[width*="95%"]')[$('table[width*="95%"]').length - 2]).remove();
-    } else if(window.location.href == 'http://donanimhaber.com/') {
+    } else if(window.location.href == 'http://www.donanimhaber.com/') {
         var lst = $('script[src*="ad.donanimhaber.com"]').parent();
         var lstID = ['dhmanset', 'paginate-dhmanset', 'ctl16_pnlVideoPlayer'];
         var lstClassName = ['ochIcerik', 'haberSag'];

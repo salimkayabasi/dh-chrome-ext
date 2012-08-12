@@ -1,50 +1,113 @@
-       
-        function toogleDetails() {
-            var p = $('p');
-            if (p.css('display') != 'none') {
-                p.css('display', 'none');
-            }
-            else {
-                p.css('display', 'block');
-            }
-        }
-        // Saves options to localStorage.
-        function save_options() {
-            var autoPlaySelection = document.getElementById("autoPlaySelection");
-            var autoPlay = autoPlaySelection.children[autoPlaySelection.selectedIndex].value;
-            localStorage['autoPlay'] = autoPlay;
-            // Update status to let user know options were saved.
-            var status = document.getElementById("status");
-            status.innerHTML = "kaydedildi";
-            setTimeout(function () {
-                status.innerHTML = '';
-            }, 750);
-        }
-        // Restores select box state to saved value from localStorage.
-        function restore_options() {
-            var autoPlay = localStorage['autoPlay'];
-            if (!autoPlay) {
-                localStorage['autoPlay'] = true;
-                return;
-            }
-            var autoPlaySelection = document.getElementById('autoPlaySelection');
-            for (var i = 0; i < autoPlaySelection.children.length; i++) {
-                var child = autoPlaySelection.children[i];
-                if (child.value == autoPlay) {
-                    child.selected = 'true';
-                    break;
-                }
-            }
-        }
+
+function toogleDetails() {
+    var p = $('p');
+    if(p.css('display') != 'none') {
+        p.css('display', 'none');
+    }
+    else {
+        p.css('display', 'block');
+    }
+}
+
+function save_options() {
+    var selectionAds = document.getElementById("selectionAds");
+    var reklamlariKaldir = selectionAds.children[selectionAds.selectedIndex].value;
+    localStorage['reklamlariKaldir'] = reklamlariKaldir;
+
+    var selectionOnlineUserBlock = document.getElementById("selectionOnlineUserBlock");
+    var removeOnlineUserBlock = selectionOnlineUserBlock.children[selectionOnlineUserBlock.selectedIndex].value;
+    localStorage['removeOnlineUserBlock'] = removeOnlineUserBlock;
 
 
-document.addEventListener('DOMContentLoaded', function () {
- document.getElementById('showhidebutton').addEventListener('click', toogleDetails);
- document.getElementById('kaydet').addEventListener('click', save_options);
+    var selectionSponsor = document.getElementById("selectionSponsor");
+    var removeSponsor = selectionSponsor.children[selectionSponsor.selectedIndex].value;
+    localStorage['removeSponsor'] = removeSponsor;
+
+
+    var selectionComments = document.getElementById("selectionComments");
+    var removeComments = selectionComments.children[selectionComments.selectedIndex].value;
+    localStorage['removeComments'] = removeComments;
+
+
+    var status = document.getElementById("status");
+    status.innerHTML = "kaydedildi";
+    setTimeout(function() {
+        status.innerHTML = '';
+    }, 750);
+}
+
+function restore_options() {
+
+    var reklamlariKaldir = localStorage["reklamlariKaldir"];
+    var removeOnlineUserBlock = localStorage["removeOnlineUserBlock"];
+    var removeSponsor = localStorage["removeSponsor"];
+    var removeComments = localStorage["removeComments"];
+    var removeDHMisafiri = localStorage["removeDHMisafiri"];
+
+    if(!reklamlariKaldir) {
+        localStorage['reklamlariKaldir'] = true;
+    }
+    if(!removeOnlineUserBlock) {
+        localStorage['removeOnlineUserBlock'] = true;
+    }
+    if(!removeSponsor) {
+        localStorage['removeSponsor'] = true;
+    }
+    if(!removeComments) {
+        localStorage['removeComments'] = true;
+    }
+
+    if(!removeDHMisafiri) {
+        localStorage['removeDHMisafiri'] = true;
+    }
+
+    restoreSelection('selectionAds', reklamlariKaldir);
+    restoreSelection('selectionOnlineUserBlock', removeOnlineUserBlock);
+    restoreSelection('selectionSponsor', removeSponsor);
+    restoreSelection('selectionComments', removeComments);
+    restoreSelection('selectionCommentsDHMisafiri', removeDHMisafiri);
+}
+
+
+function restoreSelection(selectionId, isTrueOrFalse) {
+    var selection = document.getElementById(selectionId);
+    for(var i = 0; i < selection.children.length; i++) {
+        var child = selection.children[i];
+        if(child.value == isTrueOrFalse) {
+            child.selected = 'true';
+            break;
+        }
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('showhidebutton').addEventListener('click', toogleDetails);
+    document.getElementById('kaydet').addEventListener('click', save_options);
 });
 
 
 $(document).ready(function() {
- $('p').css('display', 'none');
-  restore_options();
+    $('p').css('display', 'none');
+    restore_options();
+    $('select').change(function() {
+        save_options();
+    });
 });
+
+chrome.extension.onRequest.addListener(
+     function(request, sender, sendResponse) {
+         switch(request.name) {
+             case "getPreferences":
+                 sendResponse(
+                    {
+                        reklamlariKaldir: localStorage["reklamlariKaldir"],
+                        removeOnlineUserBlock: localStorage["removeOnlineUserBlock"],
+                        removeSponsor: localStorage["removeSponsor"],
+                        removeComments: localStorage["removeComments"],
+                        removeDHMisafiri : localStorage["removeDHMisafiri"]
+                    });
+                 break;
+         }
+     }
+);

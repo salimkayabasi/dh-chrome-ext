@@ -1,24 +1,4 @@
-﻿
-if($ === 'undefined') {
-    console.log('JQuery is not found');
-}
-else {
-    reklamlariKaldir();
-    removeOnlineUserBlock();
-    removeSponsor();
-    //videoDuzenle();
-    removeComments();
-    //removeFooter();
-    $('script[src*="ad.donanimhaber.com"]').remove();
-    $('script[src*="ad.e-kolay"]').remove();
-    $('param[value*="adserve.donanimhaber.com"]').parent().remove();
-}
-
-function removeFooter() {
-    // $('.info').remove();
-}
-
-function removeComments() {
+﻿function removeComments() {
     $('.yorumlar').remove();
 }
 
@@ -28,6 +8,11 @@ function removeSponsor() {
 }
 function removeOnlineUserBlock() {
     $('center > table:contains(Şu andaki aktif kişilerin  )').remove();
+}
+
+function removeDHMisafiri()
+{
+    $('.tekAlt:contains("DH Misafiri")').remove();
 }
 
 function videoDuzenle() {
@@ -51,8 +36,14 @@ function videoDuzenle() {
         }
     });
 }
-function reklamlariKaldir() {
 
+function reklamlariKaldir() {
+    $('a[href*="donanimhaber.com/nokiapureview808"]').parent().remove();
+    $('.aramakutu').css('float', 'none');
+    $('.reklam720').remove();
+    $('.reklam').remove();
+    $('.dhReklam728').remove();
+    $('.reklam300').remove();
     $('.menuheader').remove();
     $('.konulisteTextReklam').remove();
     $('a[href*="donanimhaber.com/ttnet"]').remove();
@@ -84,9 +75,13 @@ function reklamlariKaldir() {
         lst.remove();
     } else if(window.location.href.indexOf('http://www.donanimhaber.com/') == 0) {
         $('.divDikBannerAnasayfa').remove();
-        $(ctl16_divReklamUcuzcu).remove();
-        $(topbanner).remove();
+        $('#ctl16_divReklamUcuzcu').remove();
+        $('#topbanner').remove();
     }
+
+    $('script[src*="ad.donanimhaber.com"]').remove();
+    $('script[src*="ad.e-kolay"]').remove();
+    $('param[value*="adserve.donanimhaber.com"]').parent().remove();
 }
 
 function removeFromListByTagName(lst, lstTagName) {
@@ -113,3 +108,33 @@ function removeFromListByClassName(lst, lstClassName) {
     });
 }
 
+
+chrome.extension.sendRequest({ name: "getPreferences" },
+     function(response) {
+         localStorage["reklamlariKaldir"] = response.reklamlariKaldir;
+         localStorage["removeOnlineUserBlock"] = response.removeOnlineUserBlock;
+         localStorage["removeSponsor"] = response.removeSponsor;
+         localStorage["removeComments"] = response.removeComments;
+         localStorage["removeDHMisafiri"] = response.removeDHMisafiri;
+     });
+
+     $(function() {
+         if(localStorage["reklamlariKaldir"] == 'true') {
+             reklamlariKaldir();
+         }
+
+         if(localStorage["removeOnlineUserBlock"] == 'true') {
+             removeOnlineUserBlock();
+         }
+
+         if(localStorage["removeSponsor"] == 'true') {
+             removeSponsor();
+         }
+
+         if(localStorage["removeComments"] == 'true') {
+             removeComments();
+         }
+         if(localStorage["removeDHMisafiri"] == 'true') {
+             removeDHMisafiri();
+         }
+     });

@@ -29,6 +29,11 @@ function save_options() {
     localStorage['removeComments'] = removeComments;
 
 
+    var selectionCommentsDHMisafiri = document.getElementById("selectionCommentsDHMisafiri");
+    var removeDHMisafiri = selectionCommentsDHMisafiri.children[selectionCommentsDHMisafiri.selectedIndex].value;
+    localStorage['removeDHMisafiri'] = removeDHMisafiri;
+
+
     var status = document.getElementById("status");
     status.innerHTML = "kaydedildi";
     setTimeout(function() {
@@ -46,19 +51,24 @@ function restore_options() {
 
     if(!reklamlariKaldir) {
         localStorage['reklamlariKaldir'] = true;
+        reklamlariKaldir = true;
     }
     if(!removeOnlineUserBlock) {
         localStorage['removeOnlineUserBlock'] = true;
+        removeOnlineUserBlock = true;
     }
     if(!removeSponsor) {
         localStorage['removeSponsor'] = true;
+        removeSponsor = true;
     }
     if(!removeComments) {
         localStorage['removeComments'] = true;
+        removeComments = true;
     }
 
     if(!removeDHMisafiri) {
         localStorage['removeDHMisafiri'] = true;
+        removeDHMisafiri = true;
     }
 
     restoreSelection('selectionAds', reklamlariKaldir);
@@ -101,11 +111,11 @@ chrome.extension.onRequest.addListener(
              case "getPreferences":
                  sendResponse(
                     {
-                        reklamlariKaldir: localStorage["reklamlariKaldir"],
-                        removeOnlineUserBlock: localStorage["removeOnlineUserBlock"],
-                        removeSponsor: localStorage["removeSponsor"],
-                        removeComments: localStorage["removeComments"],
-                        removeDHMisafiri : localStorage["removeDHMisafiri"]
+                        reklamlariKaldir: localStorage["reklamlariKaldir"] == 'true',
+                        removeOnlineUserBlock: localStorage["removeOnlineUserBlock"] == 'true',
+                        removeSponsor: localStorage["removeSponsor"] == 'true',
+                        removeComments: localStorage["removeComments"] == 'true',
+                        removeDHMisafiri : localStorage["removeDHMisafiri"] == 'true'
                     });
                  break;
          }

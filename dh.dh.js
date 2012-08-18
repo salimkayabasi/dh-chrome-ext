@@ -39,6 +39,8 @@ function videoDuzenle() {
 
 function reklamlariKaldir() {
     $('a[href*="donanimhaber.com/nokiapureview808"]').parent().remove();
+    $('a[href*="donanimhaber.com/turkcellsuperonline"]').remove();
+    $('.ts-button').remove();
     $('.aramakutu').css('float', 'none');
     $('.reklam720').remove();
     $('.reklam').remove();
@@ -111,11 +113,20 @@ function removeFromListByClassName(lst, lstClassName) {
 
 chrome.extension.sendRequest({ name: "getPreferences" },
      function(response) {
-         localStorage["reklamlariKaldir"] = response.reklamlariKaldir;
-         localStorage["removeOnlineUserBlock"] = response.removeOnlineUserBlock;
-         localStorage["removeSponsor"] = response.removeSponsor;
-         localStorage["removeComments"] = response.removeComments;
-         localStorage["removeDHMisafiri"] = response.removeDHMisafiri;
+         if(response != undefined) {
+             localStorage["reklamlariKaldir"] = response.reklamlariKaldir;
+             localStorage["removeOnlineUserBlock"] = response.removeOnlineUserBlock;
+             localStorage["removeSponsor"] = response.removeSponsor;
+             localStorage["removeComments"] = response.removeComments;
+             localStorage["removeDHMisafiri"] = response.removeDHMisafiri;
+         }
+         else{
+              localStorage["reklamlariKaldir"] = true;
+             localStorage["removeOnlineUserBlock"] =true;
+             localStorage["removeSponsor"] = true;
+             localStorage["removeComments"] = true;
+             localStorage["removeDHMisafiri"] = true;
+         }
      });
 
      $(function() {
